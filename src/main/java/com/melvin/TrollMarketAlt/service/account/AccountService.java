@@ -18,9 +18,6 @@ public class AccountService implements IAccountService{
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
     public AccountDto registerAdmin(RegisterAdminDto dto) {
         PasswordEncoder passwordEncoder = RestSecurityConfig.passwordEncoder();

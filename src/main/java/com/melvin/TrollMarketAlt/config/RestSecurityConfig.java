@@ -1,5 +1,6 @@
 package com.melvin.TrollMarketAlt.config;
 
+import com.melvin.TrollMarketAlt.filter.JwtRequestFilter;
 import com.melvin.TrollMarketAlt.model.Account;
 import com.melvin.TrollMarketAlt.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class RestSecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -48,7 +53,7 @@ public class RestSecurityConfig {
                 .httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        // http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
