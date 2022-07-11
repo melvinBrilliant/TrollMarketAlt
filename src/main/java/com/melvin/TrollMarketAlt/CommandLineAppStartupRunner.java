@@ -2,9 +2,7 @@ package com.melvin.TrollMarketAlt;
 
 import com.melvin.TrollMarketAlt.config.RestSecurityConfig;
 import com.melvin.TrollMarketAlt.dao.AccountRepository;
-import com.melvin.TrollMarketAlt.dto.account.RegisterAdminDto;
 import com.melvin.TrollMarketAlt.model.Account;
-import com.melvin.TrollMarketAlt.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
