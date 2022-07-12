@@ -39,6 +39,23 @@ public class MerchendiseService implements IMercehndiseService{
         return productRepository.findAllOwnedProducts(username, pageable);
     }
 
+    @Override
+    public void isProductOwner(String sellerId, Integer productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Product not found"
+                ));
+        String ownerId = product.getSellerID().getId();
+
+        if (!ownerId.equals(sellerId)) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "This product is not owned by you!"
+            );
+        }
+    }
+
     public ProductDto findProductById(Integer productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResponseStatusException(

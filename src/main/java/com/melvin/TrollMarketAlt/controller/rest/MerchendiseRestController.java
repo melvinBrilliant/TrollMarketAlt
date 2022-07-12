@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -49,15 +48,10 @@ public class MerchendiseRestController {
             @Valid @RequestBody UpsertProductDto productDto
             ) {
         String message;
-        if (productDto.getProductId() != null) {
+        if (productId != null) {
             ProductDto product = service.findProductById(productId);
             String sellerId = product.getSellerId();
-            if (!auth.getName().equals(sellerId)) {
-                throw new ResponseStatusException(
-                        HttpStatus.FORBIDDEN,
-                        "You are not the owner of this product"
-                );
-            }
+            service.isProductOwner(sellerId, productId);
             message = String.format("Product %s has been successfully updated",
                     productDto.getProductName());
         } else {
