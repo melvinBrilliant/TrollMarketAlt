@@ -21,4 +21,14 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                                      String categoryName,
                                      String description,
                                      Pageable pageable);
+
+    @Query(value = """
+            SELECT p
+            FROM Product p
+            INNER JOIN p.sellerID AS s
+            WHERE
+                p.discontinued = false AND
+                s.id = :username
+            """)
+    Page<Product> findAllOwnedProducts(String username, Pageable pageable);
 }

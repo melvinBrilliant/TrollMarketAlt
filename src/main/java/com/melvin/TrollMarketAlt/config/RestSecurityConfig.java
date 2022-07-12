@@ -41,7 +41,8 @@ public class RestSecurityConfig {
                 .antMatchers("/api/account/auth",
                         "/api/account/register").permitAll()
                 .antMatchers("/api/account/register/admin").hasAuthority("ADMIN")
-                .antMatchers("/api/shop").hasAuthority("BUYER")
+                .antMatchers("/api/shop",
+                        "/api/shop/detail").hasAuthority("BUYER")
 
                 .anyRequest().authenticated()
                 .and()

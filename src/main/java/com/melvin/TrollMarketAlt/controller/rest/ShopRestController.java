@@ -1,6 +1,7 @@
 package com.melvin.TrollMarketAlt.controller.rest;
 
 import com.melvin.TrollMarketAlt.dto.RestResponse;
+import com.melvin.TrollMarketAlt.dto.product.ProductDetailDto;
 import com.melvin.TrollMarketAlt.dto.product.ProductDto;
 import com.melvin.TrollMarketAlt.model.Product;
 import com.melvin.TrollMarketAlt.service.shop.ShopService;
@@ -17,13 +18,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/shop")
-public class ShopController {
+public class ShopRestController {
 
     @Autowired
     private ShopService service;
 
     @GetMapping
-    public ResponseEntity<RestResponse<List<ProductDto>>> showProductsInShop (
+    public ResponseEntity<RestResponse<List<ProductDto>>> showProductsInShop(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "") String productName,
             @RequestParam(defaultValue = "") String categoryName,
@@ -37,6 +38,21 @@ public class ShopController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new RestResponse<>(
                         productDtoList,
+                        message,
+                        "200"
+                ));
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<RestResponse<ProductDetailDto>> getProductsDetail(
+            @RequestParam Integer productId
+    ) {
+        ProductDetailDto productDetailDto = service.showProductDetail(productId);
+        String message = String.format("Showing detail for product: %s",
+                productDetailDto.getProductName());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new RestResponse<>(
+                        productDetailDto,
                         message,
                         "200"
                 ));
